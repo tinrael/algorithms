@@ -1,8 +1,8 @@
 ﻿#include <iostream>
 
-void quicksort(int* items, int p, int r);
-int partition(int* items, int p, int r);
-void swap(int* x, int* y);
+void quicksort(int* items, int from, int to);
+int partition(int* items, int from, int to);
+void swap(int* a, int* b);
 
 int main()
 {
