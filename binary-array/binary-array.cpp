@@ -5,15 +5,17 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-void sortBinaryArray1(Node* items, int length);
-
-void copyArray(Node* source, Node* destination, int length);
-void printArray(Node* items, int length);
-
 struct Node {
 	int key;
 	int data;
 };
+
+void sortBinaryArray1(Node* items, int length);
+void sortBinaryArray2(Node* items, int length);
+
+void swap(Node* a, Node* b);
+void copyArray(Node* source, Node* destination, int length);
+void printArray(Node* items, int length);
 
 int main()
 {
@@ -26,7 +28,7 @@ int main()
 		items[i].data = 100 + i;
 	}
 	printArray(items, length);
-	sortBinaryArray1(items, length);
+	sortBinaryArray2(items, length);
 	printArray(items, length);
 	delete[] items;
 }
@@ -49,6 +51,31 @@ void sortBinaryArray1(Node* items, int length) {
 	}
 	copyArray(result, items, length);
 	delete[] result;
+}
+
+// in-place sorting algorithm with time complexity O(n)
+void sortBinaryArray2(Node* items, int length) {
+	int leftIndex = 0;
+	int rightIndex = length - 1;
+
+	while (true) {
+		while (leftIndex < length && items[leftIndex].key == 0) {
+			leftIndex++;
+		}
+		while (rightIndex >= 0 && items[rightIndex].key == 1) {
+			rightIndex--;
+		}
+		if (leftIndex >= rightIndex) {
+			break;
+		}
+		swap(&items[leftIndex], &items[rightIndex]);
+	}
+}
+
+void swap(Node* a, Node* b) {
+	Node tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
 void copyArray(Node* source, Node* destination, int length) {
