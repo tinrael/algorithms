@@ -12,6 +12,7 @@ struct Node {
 
 void sortBinaryArray1(Node* items, int length);
 void sortBinaryArray2(Node* items, int length);
+void sortBinaryArray3(Node* items, int length);
 
 void swap(Node* a, Node* b);
 void copyArray(Node* source, Node* destination, int length);
@@ -24,11 +25,10 @@ int main()
 	Node* items = new Node[length];
 	for (int i = 0; i < length; i++) {
 		items[i].key = rand() % 2;
-		//items[i].data = rand() % 900 + 100;
 		items[i].data = 100 + i;
 	}
 	printArray(items, length);
-	sortBinaryArray2(items, length);
+	sortBinaryArray3(items, length);
 	printArray(items, length);
 	delete[] items;
 }
@@ -65,10 +65,27 @@ void sortBinaryArray2(Node* items, int length) {
 		while (rightIndex >= 0 && items[rightIndex].key == 1) {
 			rightIndex--;
 		}
-		if (leftIndex >= rightIndex) {
+		if (leftIndex > rightIndex) {
 			break;
 		}
 		swap(&items[leftIndex], &items[rightIndex]);
+	}
+}
+
+// in-place stable sorting algorithm
+void sortBinaryArray3(Node* items, int length) {
+	bool swapMade;
+	for (int i = 1; i < length; i++) {
+		swapMade = false;
+		for (int j = 0; j < length - i; j++) {
+			if (items[j].key > items[j + 1].key) {
+				swap(&items[j], &items[j + 1]);
+				swapMade = true;
+			}
+		}
+		if (!swapMade) {
+			break;
+		}
 	}
 }
 
