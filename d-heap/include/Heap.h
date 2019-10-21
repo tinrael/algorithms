@@ -16,7 +16,13 @@ private:
 	const static int INITIAL_CAPACITY = 4;
 
 	void growCapacity() {
-
+		capacity *= 2;
+		T* newItems = new T[capacity];
+		for (size_t i = 0; i < size; i++) {
+			newItems[i] = items[i];
+		}
+		delete[] items;
+		items = newItems;
 	}
 
 	int getParentIndex(int i) {
