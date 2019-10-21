@@ -1,26 +1,29 @@
 #pragma once
-#include <algorithm>
+#include <iostream>
 
+using std::cout;
+using std::endl;
 using std::swap;
+using std::logic_error;
 
 template<typename T>
 class Heap {
 private:
 	int d; // arity
 	T* items;
-	size_t capacity;
-	size_t size;
-	const static int INITIAL_CAPACITY = 4;
+	int capacity;
+	int size;
+	const static int INITIAL_CAPACITY = 11;
 
 	void growCapacity() {
 
 	}
 
-	size_t getParentIndex(size_t i) {
+	int getParentIndex(int i) {
 		return (i - 1) / d;
 	}
 
-	void ascend(size_t index) {
+	void ascend(int index) {
 		if (index == 0) {
 			return;
 		}
@@ -31,8 +34,15 @@ private:
 		}
 	}
 
+	void descend(int index) {
+		if (index == size - 1) {
+			return;
+		}
+		
+	}
+
 public:
-	Heap(size_t d) {
+	Heap(int d) {
 		this->d = d;
 		capacity = INITIAL_CAPACITY;
 		items = new T[capacity];
@@ -50,5 +60,31 @@ public:
 		items[size] = newItem;
 		ascend(size);
 		size++;
+	}
+
+	void increase(int index, T newItem) {
+		if (newItem < items[index]) {
+			throw logic_error("smaller item passed to increase() method");
+		}
+		items[index] = newItem;
+		ascend(index);
+	}
+
+	T exctractMax() {
+		if (size == 0) {
+			throw logic_error("attempt to exctract from an empty heap");
+		}
+		size--;
+		T result = items[0];
+		items[0] = items[size];
+		descend(0);
+		return result;
+	}
+
+	void print() {
+		for (int i = 0; i < size; i++) {
+			cout << items[i] << " ";
+		}
+		cout << endl;
 	}
 };
