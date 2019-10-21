@@ -17,7 +17,7 @@ private:
 	}
 
 	size_t getParentIndex(size_t i) {
-		return i - 1 / d;
+		return (i - 1) / d;
 	}
 
 	void ascend(size_t index) {
@@ -35,7 +35,7 @@ public:
 	Heap(size_t d) {
 		this->d = d;
 		capacity = INITIAL_CAPACITY;
-		T* items = new T[capacity];
+		items = new T[capacity];
 		size = 0;
 	}
 
@@ -47,12 +47,8 @@ public:
 		if (size == capacity) {
 			growCapacity();
 		}
-		items[size] = T;
+		items[size] = newItem;
 		ascend(size);
 		size++;
 	}
-
-	
-
-
 };
