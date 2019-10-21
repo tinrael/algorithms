@@ -13,7 +13,7 @@ private:
 	T* items;
 	int capacity;
 	int size;
-	const static int INITIAL_CAPACITY = 11;
+	const static int INITIAL_CAPACITY = 4;
 
 	void growCapacity() {
 
@@ -21,6 +21,10 @@ private:
 
 	int getParentIndex(int i) {
 		return (i - 1) / d;
+	}
+
+	int getLeftChildIndex(int i) {
+		return d * i + 1;
 	}
 
 	void ascend(int index) {
@@ -35,10 +39,22 @@ private:
 	}
 
 	void descend(int index) {
-		if (index == size - 1) {
+		int currentChildIndex = getLeftChildIndex(index);
+		if (currentChildIndex >= size) {
 			return;
 		}
-		
+		int maxChildIndex = currentChildIndex;
+		currentChildIndex++;
+		for (int i = 1; i < d && currentChildIndex < size; i++) {
+			if (items[maxChildIndex] < items[currentChildIndex]) {
+				maxChildIndex = currentChildIndex;
+			}
+			currentChildIndex++;
+		}
+		if (items[index] < items[maxChildIndex]) {
+			swap(items[index], items[maxChildIndex]);
+			descend(maxChildIndex);
+		}
 	}
 
 public:
@@ -74,8 +90,8 @@ public:
 		if (size == 0) {
 			throw logic_error("attempt to exctract from an empty heap");
 		}
-		size--;
 		T result = items[0];
+		size--;
 		items[0] = items[size];
 		descend(0);
 		return result;
